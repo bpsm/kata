@@ -58,3 +58,12 @@ use exception internally to signal not found."
       (catch NoSuchElementException _ nil))))
 
 
+(defn chop5
+  "interative, indexed, using a closed range"
+  [e v]
+  (loop [a (int 0) b (dec (count v))]
+    (when (<= a b)
+      (let [i (int (/ (+ a b) 2))]
+        (cond (= (v i) e) i
+              (< (v i) e) (recur (inc i) b)
+              :else       (recur a       (dec i)))))))

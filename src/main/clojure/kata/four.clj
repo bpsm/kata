@@ -42,6 +42,11 @@
 (defn min-by [f s]
   (apply min-key f s))
 
+(defn with-smallest-spread
+  [dd fresult fld1 fld2]
+  (fresult (min-by (fspread fld1 fld2)
+                   (parse-records dd))))
+
 (def weather
      (data-declaration (resource "kata/four/weather.dat")
                        :day 0 4 INTEGER
@@ -49,9 +54,7 @@
                        :min-temp 12 14 INTEGER))
 
 (defn day-with-smallest-temperature-spread []
-  (:day
-   (min-by (fspread :max-temp :min-temp)
-           (parse-records weather))))
+  (with-smallest-spread weather :day :max-temp :min-temp))
 
 (def football
      (data-declaration (resource "kata/four/football.dat")
@@ -60,9 +63,7 @@
                        :against 50 52 INTEGER))
 
 (defn team-with-smallest-for-against-spread []
-  (:team
-   (min-by (fspread :for :against)
-           (parse-records football))))
+  (with-smallest-spread football :team :for :against))
 
 
 

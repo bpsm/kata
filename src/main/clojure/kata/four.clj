@@ -12,11 +12,9 @@
   {name {:pos (half-open-range col-min col-max) :type type}})
 
 (defn data-declaration
-  [url line-min line-max & fields]
-  {:pre [(zero? (rem (count fields) 4))
-         (<= line-min line-max)]}
+  [url & fields]
+  {:pre [(zero? (rem (count fields) 4))]}
   {:url url
-   :line (half-open-range line-min line-max)
    :fields (into {} (map #(apply field %) (partition 4 fields)))})
 
 (defn parse-record [dd line]
@@ -31,19 +29,10 @@
   (try (parse-record dd line)
        (catch Exception _ nil)))
 
-(defn data-line-seq [dd]
-  (let [mi (-> dd :line :min)
-        ma (-> dd :line :max)
-        ndrop (dec mi)
-        ntake (- ma mi)]
-    (->> dd :url reader line-seq
-         (drop ndrop)
-         (take ntake))))
-
 (defn parse-records [dd]
   (filter identity
           (map #(maybe-parse-record dd %)
-               (data-line-seq dd))))
+               (-> dd :url reader line-seq))))
 
 (defn ffield-spread [fld1 fld2]
   (fn [r]
@@ -54,7 +43,7 @@
   (apply min-key f s))
 
 (def weather
-     (data-declaration (resource "kata/four/weather.dat") 9 39
+     (data-declaration (resource "kata/four/weather.dat")
                        :day 0 4 INTEGER
                        :max-temp 6 8 INTEGER
                        :min-temp 12 14 INTEGER))
@@ -65,7 +54,7 @@
            (parse-records weather))))
 
 (def football
-     (data-declaration (resource "kata/four/football.dat") 6 27
+     (data-declaration (resource "kata/four/football.dat")
                        :team 7 22 STRING
                        :for 43 45 INTEGER
                        :against 50 52 INTEGER))

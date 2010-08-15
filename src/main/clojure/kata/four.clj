@@ -34,7 +34,7 @@
           (map #(maybe-parse-record dd %)
                (-> dd :url reader line-seq))))
 
-(defn ffield-spread [fld1 fld2]
+(defn fspread [fld1 fld2]
   (fn [r]
     (Math/abs (- (get r fld1)
                  (get r fld2)))))
@@ -50,7 +50,7 @@
 
 (defn day-with-smallest-temperature-spread []
   (:day
-   (min-by (ffield-spread :max-temp :min-temp)
+   (min-by (fspread :max-temp :min-temp)
            (parse-records weather))))
 
 (def football
@@ -61,7 +61,7 @@
 
 (defn team-with-smallest-for-against-spread []
   (:team
-   (min-by (ffield-spread :for :against)
+   (min-by (fspread :for :against)
            (parse-records football))))
 
 

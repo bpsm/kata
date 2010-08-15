@@ -15,7 +15,9 @@
   [url & fields]
   {:pre [(zero? (rem (count fields) 4))]}
   {:url url
-   :fields (into {} (map #(apply field %) (partition 4 fields)))})
+   :fields (into {}
+                 (map #(apply field %)
+                      (partition 4 fields)))})
 
 (defn parse-record [dd line]
   (into {}

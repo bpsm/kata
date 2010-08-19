@@ -13,7 +13,7 @@
     <main.class>kata.Main</main.class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <clojure-maven-plugin.version>1.3.3</clojure-maven-plugin.version>
-    <clojure.version>1.2.0-RC2</clojure.version>
+    <clojure.version>1.2.0</clojure.version>
     <clojure-contrib.version>1.2.0-SNAPSHOT</clojure-contrib.version>
     <swank-clojure.version>1.2.1</swank-clojure.version>
   </properties>
